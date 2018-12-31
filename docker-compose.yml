@@ -1,0 +1,28 @@
+# for local execution
+  
+version: '3.7'
+
+services:
+  redmine-memcached:
+    image: memcached
+  redmine:
+    depends_on:
+    - redmine-memcached
+    build: ./docker/redmine-plugin-dev
+    image: redmine-plugin-dev
+    init: true
+    command: [
+      "rails", "s",
+      "-e", "production",
+      "-b", "0.0.0.0",
+    ]
+    ports:
+     - "3000:3000"
+    volumes:
+    - ./runtime/usr/src/redmine/config:/usr/src/redmine/config
+    - ./runtime/usr/src/redmine/files:/usr/src/redmine/files
+    - ./runtime/usr/src/redmine/log:/usr/src/redmine/log
+    - ./runtime/usr/src/redmine/plugins:/usr/src/redmine/plugins
+    - ./runtime/usr/src/redmine/tmp:/usr/src/redmine/tmp
+    - ./runtime/usr/src/redmine/vendor:/usr/src/redmine/vendor
+
