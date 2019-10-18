@@ -19,6 +19,7 @@ services:
     ports:
      - "3000:3000"
     volumes:
+    - ./runtime/usr/src/redmine/app/assets:/usr/src/redmine/app/assets
     - ./runtime/usr/src/redmine/config:/usr/src/redmine/config
     - ./runtime/usr/src/redmine/files:/usr/src/redmine/files
     - ./runtime/usr/src/redmine/log:/usr/src/redmine/log
