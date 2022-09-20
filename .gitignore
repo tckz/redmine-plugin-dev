@@ -1,1 +1,5 @@
-backup/
+/backup/
+/.env
+/runtime/mysql/var/lib/
+/runtime/mysql/var/log/
+

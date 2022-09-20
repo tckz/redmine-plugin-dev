@@ -3,11 +3,10 @@
 version: '3.7'
 
 services:
-  redmine-memcached:
-    image: memcached
   redmine:
     depends_on:
     - redmine-memcached
+    - redmine-mysql
     build: ./docker/redmine-plugin-dev
     image: redmine-plugin-dev
     init: true
@@ -26,4 +25,18 @@ services:
     - ./runtime/usr/src/redmine/plugins:/usr/src/redmine/plugins
     - ./runtime/usr/src/redmine/tmp:/usr/src/redmine/tmp
     - ./runtime/usr/src/redmine/vendor:/usr/src/redmine/vendor
+  redmine-mysql:
+    image: mysql:8.0
+    restart: on-failure
+    environment:
+      - MYSQL_DATABASE=redmine
+      # specify in .env
+      - MYSQL_ROOT_PASSWORD
+    volumes:
+    - ./runtime/mysql/var/lib/mysql/:/var/lib/mysql/
+    - ./runtime/mysql/var/log/mysql/:/var/log/mysql/
+    - ./runtime/mysql/etc/mysql/conf.d/:/etc/mysql/conf.d/
+    - ./backup/:/backup/
+  redmine-memcached:
+    image: memcached
 

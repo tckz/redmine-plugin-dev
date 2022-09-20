@@ -1,20 +1,8 @@
 #!/bin/bash
 
-mypath=`cd $(dirname $0) && /bin/pwd`
-dir_backup=$mypath/backup
-
-if [[ ! -f $dir_backup ]]
-then
-	mkdir -p $dir_backup
-fi
-
-cd $dir_backup
-
 dbname=redmine
-loginpath=mydb2
-out=$loginpath-$dbname-`date +%Y%m%d-%H%M%S`.gz
+out=/backup/$dbname-`date +%Y%m%d-%H%M%S`.gz
 
-mysqldump --login-path=$loginpath --column-statistics=0 $dbname | gzip -c > $out
-
+docker-compose exec -ti redmine-mysql bash -c "mysqldump --user root --password=\$MYSQL_ROOT_PASSWORD --column-statistics=0 $dbname | gzip -c > $out"
 
 
