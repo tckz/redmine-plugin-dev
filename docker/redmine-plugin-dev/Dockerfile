@@ -1,4 +1,4 @@
-FROM redmine:5.0.2
+FROM redmine:5.0.3
 
 RUN set -x && \
 	apt update && \
