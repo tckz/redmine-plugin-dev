@@ -1,7 +1,5 @@
 # for local execution
   
-version: '3.7'
-
 services:
   redmine:
     depends_on:
