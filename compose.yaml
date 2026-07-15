@@ -3,8 +3,10 @@
 services:
   redmine:
     depends_on:
-    - redmine-memcached
-    - redmine-mysql
+      redmine-memcached:
+        condition: service_started
+      redmine-mysql:
+        condition: service_healthy
     build: ./docker/redmine-plugin-dev
     image: redmine-plugin-dev
     init: true
@@ -34,6 +36,13 @@ services:
     - ./runtime/mysql/var/log/mysql/:/var/log/mysql/
     - ./runtime/mysql/etc/mysql/conf.d/:/etc/mysql/conf.d/
     - ./backup/:/backup/
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u root -p$$MYSQL_ROOT_PASSWORD"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+      start_period: 10s
+
   redmine-memcached:
     image: memcached
-
+    restart: on-failure
