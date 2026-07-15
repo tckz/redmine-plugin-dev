@@ -3,7 +3,7 @@ Docker image for develop plugin of redmine
 
 Compose redmine and memcached containers.  
 Image for redmine: 
- * Based on official redmine:4  
+ * Based on official redmine:6  
    https://hub.docker.com/_/redmine/
  * Include graphviz, dalli
 Image for memcached:
